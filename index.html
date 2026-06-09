@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ragul R – Web Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0A0F1E;
+      --surface: #111827;
+      --card: #151d2e;
+      --accent: #38BDF8;
+      --accent2: #818CF8;
+      --green: #34D399;
+      --text: #E2E8F0;
+      --muted: #94A3B8;
+      --border: rgba(255,255,255,0.07);
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'Space Grotesk', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 6%;
+      background: rgba(10,15,30,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 0.9rem;
+      font-weight: 500; letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 6rem 6% 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 50%, rgba(56,189,248,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(129,140,248,0.07) 0%, transparent 60%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.25);
+      color: var(--accent); padding: 0.35rem 1rem;
+      border-radius: 100px; font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero-tag::before {
+      content: ''; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 800; line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.3rem;
+    }
+    .hero-name span {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-role {
+      font-size: 1.25rem; color: var(--muted);
+      font-weight: 400; margin-bottom: 1.5rem;
+    }
+    .hero-desc {
+      color: var(--muted); font-size: 1.05rem; max-width: 520px;
+      margin-bottom: 2.5rem; line-height: 1.75;
+    }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; padding: 0.8rem 2rem;
+      border-radius: 8px; font-weight: 600; font-size: 0.95rem;
+      text-decoration: none; transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid var(--border); color: var(--text);
+      padding: 0.8rem 2rem; border-radius: 8px;
+      font-weight: 500; font-size: 0.95rem;
+      text-decoration: none; transition: border-color 0.2s, transform 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; gap: 2.5rem; margin-top: 3.5rem;
+      flex-wrap: wrap;
+    }
+    .stat { }
+    .stat-num {
+      font-family: var(--font-display); font-size: 2rem; font-weight: 800;
+      color: var(--accent);
+    }
+    .stat-label { font-size: 0.82rem; color: var(--muted); letter-spacing: 0.04em; }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 6%; }
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 800; margin-bottom: 3rem;
+      color: var(--text);
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--surface); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .about-text p {
+      color: var(--muted); line-height: 1.8; margin-bottom: 1rem; font-size: 1.02rem;
+    }
+    .about-info { display: flex; flex-direction: column; gap: 0.9rem; margin-top: 1.8rem; }
+    .info-row { display: flex; gap: 0.8rem; align-items: flex-start; }
+    .info-icon { color: var(--accent); font-size: 1rem; margin-top: 2px; }
+    .info-label { font-size: 0.82rem; color: var(--muted); }
+    .info-val { font-size: 0.95rem; color: var(--text); font-weight: 500; }
+
+    .cgpa-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 2rem;
+      text-align: center;
+    }
+    .cgpa-circle {
+      width: 130px; height: 130px; margin: 0 auto 1.2rem;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent) 0deg, var(--accent2) calc(7.89/10 * 360deg), rgba(255,255,255,0.05) calc(7.89/10 * 360deg));
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .cgpa-circle::before {
+      content: ''; position: absolute;
+      width: 100px; height: 100px;
+      border-radius: 50%; background: var(--card);
+    }
+    .cgpa-val {
+      position: relative; z-index: 1;
+      font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; color: var(--text);
+    }
+    .cgpa-label { color: var(--muted); font-size: 0.85rem; }
+    .cgpa-title { font-weight: 600; font-size: 1rem; margin-top: 0.5rem; color: var(--text); }
+    .cgpa-sub { color: var(--muted); font-size: 0.82rem; }
+
+    /* ── SKILLS ── */
+    #skills { }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: rgba(56,189,248,0.3); transform: translateY(-4px); }
+    .skill-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+    .skill-name { font-weight: 600; font-size: 1rem; margin-bottom: 0.4rem; }
+    .skill-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+    .skill-bar-wrap {
+      margin-top: 1rem; background: rgba(255,255,255,0.06);
+      border-radius: 100px; height: 4px; overflow: hidden;
+    }
+    .skill-bar {
+      height: 100%; border-radius: 100px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 1.2s ease;
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--surface); }
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+    }
+    .timeline-item {
+      position: relative; margin-bottom: 2.5rem;
+    }
+    .timeline-dot {
+      position: absolute; left: -2.6rem; top: 0.2rem;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--accent); border: 3px solid var(--bg);
+      box-shadow: 0 0 0 3px rgba(56,189,248,0.2);
+    }
+    .timeline-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.6rem;
+    }
+    .timeline-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.6rem;
+    }
+    .timeline-role { font-weight: 700; font-size: 1.05rem; }
+    .timeline-badge {
+      background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.2);
+      color: var(--accent); padding: 0.2rem 0.75rem;
+      border-radius: 100px; font-size: 0.78rem; font-weight: 600;
+    }
+    .timeline-org { color: var(--accent2); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .timeline-points { list-style: none; }
+    .timeline-points li {
+      color: var(--muted); font-size: 0.9rem; padding: 0.3rem 0;
+      padding-left: 1.2rem; position: relative;
+    }
+    .timeline-points li::before {
+      content: '→'; position: absolute; left: 0; color: var(--accent);
+    }
+
+    /* ── PROJECTS ── */
+    #projects { }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .project-card:hover { transform: translateY(-5px); border-color: rgba(129,140,248,0.3); }
+    .project-header {
+      padding: 1.5rem 1.5rem 0;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .project-icon { font-size: 2rem; }
+    .project-links { display: flex; gap: 0.5rem; }
+    .project-link {
+      color: var(--muted); font-size: 0.8rem;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem; border-radius: 6px;
+      text-decoration: none; transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--accent); }
+    .project-body { padding: 1rem 1.5rem 1.5rem; }
+    .project-name { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; }
+    .project-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      color: var(--muted); padding: 0.2rem 0.65rem;
+      border-radius: 6px; font-size: 0.75rem; font-weight: 500;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--surface); }
+    .contact-wrapper {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: start;
+    }
+    .contact-info p {
+      color: var(--muted); line-height: 1.8; margin-bottom: 2rem; font-size: 1rem;
+    }
+    .contact-items { display: flex; flex-direction: column; gap: 1.1rem; }
+    .contact-item {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.9rem 1.2rem;
+    }
+    .contact-item-icon {
+      width: 38px; height: 38px; border-radius: 8px;
+      background: rgba(56,189,248,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .contact-item-label { font-size: 0.78rem; color: var(--muted); }
+    .contact-item-val { font-size: 0.95rem; font-weight: 500; color: var(--text); }
+
+    .contact-card {
+      background: linear-gradient(135deg, rgba(56,189,248,0.08), rgba(129,140,248,0.08));
+      border: 1px solid rgba(56,189,248,0.15);
+      border-radius: 16px; padding: 2.5rem;
+      text-align: center;
+    }
+    .contact-card h3 {
+      font-family: var(--font-display); font-size: 1.5rem;
+      font-weight: 800; margin-bottom: 0.8rem;
+    }
+    .contact-card p { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; }
+    .contact-card a {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; padding: 0.9rem 2.2rem;
+      border-radius: 10px; font-weight: 600;
+      text-decoration: none; font-size: 0.95rem;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .contact-card a:hover { opacity: 0.85; transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2rem 6%;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.85rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 5%; }
+      .nav-links { gap: 1.2rem; }
+      section { padding: 3.5rem 5%; }
+      .about-grid, .contact-wrapper { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-stats { gap: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Ragul R</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Available for Opportunities</div>
+    <h1 class="hero-name">Hi, I'm <span>Ragul R</span></h1>
+    <p class="hero-role">Web Developer &amp; Software Engineer</p>
+    <p class="hero-desc">
+      A passionate Computer Science student from Trichy, building clean and functional web experiences.
+      Hands-on internship experience in web development and always eager to learn more.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">7.89</div>
+        <div class="stat-label">Current CGPA</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3mo</div>
+        <div class="stat-label">Internship</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Tech Skills</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <span class="section-label">Who I Am</span>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm Ragul R, a 3rd-year B.E. Computer Science and Engineering student at
+        P.T.R College of Engineering and Technology, Trichy. I have a genuine passion
+        for web development and building things that work on the internet.
+      </p>
+      <p>
+        I completed a 3-month web development internship at Carizo, where I got
+        real-world experience working on projects and collaborating with a team.
+        I enjoy turning ideas into live, interactive websites.
+      </p>
+      <div class="about-info">
+        <div class="info-row">
+          <span class="info-icon">🎓</span>
+          <div>
+            <div class="info-label">Education</div>
+            <div class="info-val">B.E. CSE – P.T.R College of Engineering & Technology</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">📍</span>
+          <div>
+            <div class="info-label">Location</div>
+            <div class="info-val">Trichy – 621012, Tamil Nadu</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">📧</span>
+          <div>
+            <div class="info-label">Email</div>
+            <div class="info-val">ragul200799@gmail.com</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">📞</span>
+          <div>
+            <div class="info-label">Phone</div>
+            <div class="info-val">9025035350</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cgpa-card">
+      <div class="cgpa-circle">
+        <div class="cgpa-val">7.89</div>
+      </div>
+      <div class="cgpa-title">B.E. Computer Science</div>
+      <div class="cgpa-sub">P.T.R College of Engineering &amp; Technology</div>
+      <br/>
+      <div class="cgpa-label" style="margin-top:1.2rem; border-top:1px solid rgba(255,255,255,0.06); padding-top:1rem;">
+        <strong style="color:var(--text)">12th Standard</strong><br/>
+        Government School &nbsp;·&nbsp; 413 / 600
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <span class="section-label">What I Know</span>
+  <h2 class="section-title">Technical Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">🌐</div>
+      <div class="skill-name">HTML5</div>
+      <div class="skill-desc">Semantic markup, accessible page structure, and modern HTML best practices.</div>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🎨</div>
+      <div class="skill-name">CSS3</div>
+      <div class="skill-desc">Responsive layouts, Flexbox, Grid, animations and styling modern UIs.</div>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">⚡</div>
+      <div class="skill-name">JavaScript</div>
+      <div class="skill-desc">DOM manipulation, event handling, and client-side interactivity.</div>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width:72%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">💡</div>
+      <div class="skill-name">Problem Solving</div>
+      <div class="skill-desc">Logical thinking, debugging, and finding clean solutions to complex problems.</div>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🤝</div>
+      <div class="skill-name">Team Collaboration</div>
+      <div class="skill-desc">Worked in a team environment during internship at Carizo, communicating effectively.</div>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📱</div>
+      <div class="skill-name">Responsive Design</div>
+      <div class="skill-desc">Building websites that look great on all screen sizes and devices.</div>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <span class="section-label">My Journey</span>
+  <h2 class="section-title">Experience &amp; Education</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="timeline-top">
+          <div class="timeline-role">Web Development Intern</div>
+          <div class="timeline-badge">3 Months</div>
+        </div>
+        <div class="timeline-org">Carizo</div>
+        <ul class="timeline-points">
+          <li>Gained hands-on experience with web development technologies in a real-world environment</li>
+          <li>Contributed to live web projects, from development to deployment</li>
+          <li>Collaborated with the development team and understood professional workflows</li>
+          <li>Applied HTML, CSS and JavaScript skills to build and improve UI features</li>
+        </ul>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background: var(--accent2)"></div>
+      <div class="timeline-card">
+        <div class="timeline-top">
+          <div class="timeline-role">B.E. – Computer Science and Engineering</div>
+          <div class="timeline-badge">Pursuing</div>
+        </div>
+        <div class="timeline-org">P.T.R College of Engineering and Technology, Trichy</div>
+        <ul class="timeline-points">
+          <li>Currently in 3rd year with a CGPA of 7.89</li>
+          <li>Core subjects: Data Structures, OOP, Web Technologies, DBMS, OS</li>
+          <li>Worked on academic web development projects as part of curriculum</li>
+        </ul>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background: var(--green)"></div>
+      <div class="timeline-card">
+        <div class="timeline-top">
+          <div class="timeline-role">Higher Secondary (12th Standard)</div>
+          <div class="timeline-badge">Completed</div>
+        </div>
+        <div class="timeline-org">Government School</div>
+        <ul class="timeline-points">
+          <li>Scored 413 out of 600</li>
+          <li>Developed a strong foundation in Mathematics and Science</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <span class="section-label">What I've Built</span>
+  <h2 class="section-title">Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-icon">🛒</div>
+        <div class="project-links">
+          <span class="project-link">Academic</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-name">Responsive E-Commerce UI</div>
+        <div class="project-desc">A fully responsive e-commerce front-end with product listings, cart interactions, and mobile-first design built using HTML, CSS and JavaScript.</div>
+        <div class="project-tags">
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-icon">📋</div>
+        <div class="project-links">
+          <span class="project-link">Academic</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-name">Student Portfolio Website</div>
+        <div class="project-desc">A personal portfolio website to showcase projects, skills and contact info. Designed with clean layout and smooth scrolling interactions.</div>
+        <div class="project-tags">
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-icon">✅</div>
+        <div class="project-links">
+          <span class="project-link">Internship</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-name">Web App – Carizo Internship</div>
+        <div class="project-desc">Contributed to web development tasks during 3-month internship at Carizo. Worked on UI components, bug fixes and feature improvements.</div>
+        <div class="project-tags">
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Team Project</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <span class="section-label">Let's Talk</span>
+  <h2 class="section-title">Get In Touch</h2>
+  <div class="contact-wrapper">
+    <div class="contact-info">
+      <p>I'm currently open to internship opportunities, entry-level roles, and freelance web development projects. Feel free to reach out!</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="contact-item-icon">📧</div>
+          <div>
+            <div class="contact-item-label">Email</div>
+            <div class="contact-item-val">ragul200799@gmail.com</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div>
+            <div class="contact-item-label">Phone</div>
+            <div class="contact-item-val">9025035350</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div>
+            <div class="contact-item-label">Location</div>
+            <div class="contact-item-val">Trichy – 621012, Tamil Nadu</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-card">
+      <h3>Open to Work 🚀</h3>
+      <p>Looking for Web Developer or Software Engineer roles. Let's build something great together!</p>
+      <a href="mailto:ragul200799@gmail.com">Send Me an Email</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Designed &amp; Built by <strong>Ragul R</strong> &nbsp;·&nbsp; Trichy, Tamil Nadu &nbsp;·&nbsp; 2025</p>
+</footer>
+
+</body>
+</html>
